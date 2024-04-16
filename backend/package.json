@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexCoding123/LibraryManagement.git"
+  },
+  "author": "Alex Davila Alonso",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexCoding123/LibraryManagement/issues"
+  },
+  "homepage": "https://github.com/AlexCoding123/LibraryManagement#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
