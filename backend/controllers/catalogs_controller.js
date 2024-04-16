@@ -16,6 +16,24 @@ exports.getCatalogs = async (req, res) => {
     }
 }
 
+exports.addCatalog = async (req, res) => {
+    try{
+        const name = req.body.name;
+        const category = req.body.category;
+        const isbn = req.body.ISBN;
+        const catalog = {"name": name, "category": category, "ISBN": isbn};
+        catalogs.push(catalog);
+
+        res.status(201).json({
+            catalog: catalog
+        })
+    }catch{
+        res.status(500).json({
+            error: "error retrieving catalogs"
+        })
+    }
+}
+
 exports.deleteCatalog = async (req, res) => {
     try{
         const catalogName = req.query.name;
