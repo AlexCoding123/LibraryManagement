@@ -48,7 +48,34 @@ exports.deleteCatalog = async (req, res) => {
             status: `Catalog ${catalogName} deleted successfully`
         })
     }catch{
+        res.status(500).json({
+            error: "error deleting catalog"
+        })
+    }
+}
 
+exports.editCatalog = async (req, res) => {
+    try{
+        const currentCatalog = catalogs.find(cat => cat.name === req.query.name);
+        console.log(currentCatalog);
+
+        const name = req.body.name;
+        const category = req.body.category;
+        const isbn = req.body.ISBN;
+        const catalog = {"name": name, "category": category, "ISBN": isbn};
+
+        for(let cat of catalogs){
+            if(cat.name === currentCatalog.name){
+                cat.name = catalog.name;
+                cat.category = catalog.category;
+                cat.ISBN = catalog.ISBN;
+            }
+        }
+
+        res.status(200).json({
+            status: "Catalog edit was successful"
+        })
+    }catch{
         res.status(500).json({
             error: "error deleting catalog"
         })
