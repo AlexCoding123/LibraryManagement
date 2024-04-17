@@ -27,7 +27,7 @@ exports.addCatalog = async (req, res) => {
         catalogs.push(catalog);
 
         res.status(201).json({
-            catalog: catalog
+            content: catalogs
         });
     } catch (error) {
         res.status(500).json({
