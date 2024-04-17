@@ -68,7 +68,7 @@ exports.editCatalog = async (req, res) => {
         const { name, category, ISBN } = req.body;
         catalogs[index] = { ...catalogs[index], name, category, ISBN };
         res.status(200).json({
-            status: "Catalog edit was successful"
+            content: catalogs
         });
     } catch (error) {
         res.status(500).json({

@@ -3,7 +3,7 @@ import {useParams} from 'react-router-dom';
 import {catalogAtom} from './HomePage'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import {Link} from 'react-router-dom';
 const Catalog = () => {
     const {id} = useParams();
     const catalogId = parseInt(id);
@@ -43,6 +43,7 @@ const Catalog = () => {
             <h3>{catalog.ISBN}</h3>
 
             <button onClick={handleDelete}>delete</button>
+            <button><Link to={`/edit-catalog/${catalogId}`}>edit</Link></button>
         </div>
     );
 }
