@@ -1,6 +1,7 @@
 import {atom, useAtom} from 'jotai';
 import {useEffect} from 'react';
 import axios from 'axios';
+import { Link } from "react-router-dom";
 
 const fetchCatalogs = () => {
     const token = localStorage.getItem('token');
@@ -21,7 +22,7 @@ const fetchCatalogs = () => {
     })
 }
 
-const catalogAtom = atom([]);
+export const catalogAtom = atom([]);
 
 const HomePage = () => {
     const [catalogs, setCatalogs] = useAtom(catalogAtom);
@@ -43,7 +44,7 @@ const HomePage = () => {
         <div>
                 {catalogs ?
                     catalogs.map(catalog => (
-                        <h1>{catalog.name}</h1>
+                        <Link to={`/catalog/${catalog.id}`}>{catalog.name}</Link>
                     ))
                     :
                     <h1>No Catalogs!</h1>

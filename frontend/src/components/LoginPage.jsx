@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {atom, useAtom, useSetAtom} from 'jotai';
+import { useNavigate } from 'react-router-dom';
 
 const usernameAtom = atom('');
 const passwordAtom = atom('');
@@ -8,6 +9,8 @@ const LoginPage = () => {
     const [username, setUsername] = useAtom(usernameAtom);
     const [password, setPassword] = useAtom(passwordAtom);
     const  setIsLoggedIn = useSetAtom(isLoggedInAtom);
+
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,6 +25,7 @@ const LoginPage = () => {
             }
             localStorage.setItem('token', response.data.token);
             setIsLoggedIn(true);
+            navigate('/home');
         })
         .catch(error => {
             console.log(error);

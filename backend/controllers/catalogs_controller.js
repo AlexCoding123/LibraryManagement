@@ -1,83 +1,79 @@
+let nextId = 4; // Starting ID for new catalogs
+
 const catalogs = [
-    {"name": "Test Book", "category": "Book", "ISBN": 123456789},
-    {"name": "Test Article", "category": "Article", "ISBN": null},
-    {"name": "Test Paper", "category": "Paper", "ISBN": null}
+    {"id": 1, "name": "Test Book", "category": "Book", "ISBN": 123456789},
+    {"id": 2, "name": "Test Article", "category": "Article", "ISBN": null},
+    {"id": 3, "name": "Test Paper", "category": "Paper", "ISBN": null}
 ];
 
 exports.getCatalogs = async (req, res) => {
-    try{
+    try {
         res.status(200).json({
             content: catalogs,
-        })
-    }catch{
+        });
+    } catch (error) {
         res.status(500).json({
-            error: "error retrieving catalogs"
-        })
+            error: "Error retrieving catalogs"
+        });
     }
-}
+};
 
 exports.addCatalog = async (req, res) => {
-    try{
+    try {
         const name = req.body.name;
         const category = req.body.category;
         const isbn = req.body.ISBN;
-        const catalog = {"name": name, "category": category, "ISBN": isbn};
+        const catalog = {"id": nextId++, "name": name, "category": category, "ISBN": isbn};
         catalogs.push(catalog);
 
         res.status(201).json({
             catalog: catalog
-        })
-    }catch{
+        });
+    } catch (error) {
         res.status(500).json({
-            error: "error retrieving catalogs"
-        })
+            error: "Error adding catalog"
+        });
     }
-}
+};
 
 exports.deleteCatalog = async (req, res) => {
-    try{
-        const catalogName = req.query.name;
-        const index = catalogs.findIndex(catalog => catalog.name === catalogName);
+    try {
+        const catalogId = parseInt(req.query.id);
+        const index = catalogs.findIndex(catalog => catalog.id === catalogId);
         if (index === -1) {
             return res.status(404).json({
-                error: `Catalog ${catalogName} not found`
+                error: `Catalog with ID ${catalogId} not found`
             });
         }
         catalogs.splice(index, 1);
         res.status(200).json({
-            status: `Catalog ${catalogName} deleted successfully`
-        })
-    }catch{
+            content: catalogs
+        });
+    } catch (error) {
         res.status(500).json({
-            error: "error deleting catalog"
-        })
+            error: "Error deleting catalog"
+        });
     }
-}
+};
 
 exports.editCatalog = async (req, res) => {
-    try{
-        const currentCatalog = catalogs.find(cat => cat.name === req.query.name);
-        console.log(currentCatalog);
-
-        const name = req.body.name;
-        const category = req.body.category;
-        const isbn = req.body.ISBN;
-        const catalog = {"name": name, "category": category, "ISBN": isbn};
-
-        for(let cat of catalogs){
-            if(cat.name === currentCatalog.name){
-                cat.name = catalog.name;
-                cat.category = catalog.category;
-                cat.ISBN = catalog.ISBN;
-            }
+    try {
+        const catalogId = parseInt(req.query.id);
+        const index = catalogs.findIndex(catalog => catalog.id === catalogId);
+        if (index === -1) {
+            return res.status(404).json({
+                error: `Catalog with ID ${catalogId} not found`
+            });
         }
-
+        const { name, category, ISBN } = req.body;
+        catalogs[index] = { ...catalogs[index], name, category, ISBN };
         res.status(200).json({
             status: "Catalog edit was successful"
-        })
-    }catch{
+        });
+    } catch (error) {
         res.status(500).json({
-            error: "error deleting catalog"
-        })
+            error: "Error editing catalog"
+        });
     }
-}
+};
+
