@@ -1,16 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useAtomValue} from 'jotai'
 import './App.css'
 import LoginPage from './components/LoginPage'
+import HomePage from './components/HomePage'
+import {isLoggedInAtom} from './components/LoginPage';
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-        <LoginPage />
-    </>
-  )
+    const isLoggedIn = useAtomValue(isLoggedInAtom);
+    return (
+            <>
+                {isLoggedIn ?
+                    <HomePage />
+                :
+                    <LoginPage />
+                }
+            </>
+        )
 }
 
 export default App
