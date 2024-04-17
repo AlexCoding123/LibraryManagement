@@ -29,7 +29,20 @@ const HomePage = () => {
 
     useEffect(() => {
         if(localStorage.getItem('catalogs')){
-            setCatalogs(JSON.parse(localStorage.getItem('catalogs')));
+            const localCatalogs = JSON.parse(localStorage.getItem('catalogs'));
+            setCatalogs(localCatalogs);
+            // Sync the backend with local storage
+            const token = localStorage.getItem('token');
+            const config = {
+                headers: { Authorization: `Bearer ${token}` }
+            };
+            axios.post('http://localhost:3000/api/sync-catalogs', localCatalogs, config)
+                .then(response => {
+                    console.log('Catalogs synced with backend:', response.data);
+                })
+                .catch(error => {
+                    console.error('Error syncing catalogs with backend:', error);
+                });
         }else{
             fetchCatalogs().then(data => {
                 setCatalogs(data);
@@ -37,31 +50,6 @@ const HomePage = () => {
             });
         }
     },[])
-
-    const handleAddCatalog = () => {
-        e.preventDefault();
-        try{
-            const token = localStorage.getItem('token');
-            const config = {
-                headers: { Authorization: `Bearer ${token}` }
-            };
-            const url = `http://localhost:3000/api/catalogs`;
-            axios.delete(url, config)
-            .then(response => {
-                if(!response.status === 200){
-                    throw new Error(`API call failed with status ${response.data}`);
-                }
-                console.log(response.data.content);
-                const updatedCatalogs = response.data.content;
-                setCatalogs(updatedCatalogs);
-                localStorage.setItem("catalogs", JSON.stringify(updatedCatalogs));
-
-                navigate('/home');
-            })
-        }catch(e){
-            console.error('Error adding catalog')
-        }
-    }
 
     return (
         <>

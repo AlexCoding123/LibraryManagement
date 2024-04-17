@@ -77,3 +77,17 @@ exports.editCatalog = async (req, res) => {
     }
 };
 
+exports.syncCatalogs = async (req, res) => {
+    try {
+        const updatedCatalogs = req.body;
+        catalogs.length = 0; // Clear existing catalogs
+        catalogs.push(...updatedCatalogs); // Add new catalogs
+        res.status(200).json({ message: 'Catalogs synced successfully' });
+    } catch (error) {
+        res.status(500).json({
+            error: "Error syncing catalogs"
+        });
+    }
+};
+
+
