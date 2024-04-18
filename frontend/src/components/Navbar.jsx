@@ -14,7 +14,7 @@ const Navbar = () => {
     return (
         <nav className="bg-white border-gray-200 fixed top-0 left-0 w-full z-10">
             <div className="max-w-screen-xl flex justify-between items-center mx-auto p-4">
-                <Link to="/home" className="text-2xl font-semibold text-gray-900">Your Logo</Link>
+                <Link to="/home" className="text-2xl font-semibold text-gray-900">Library</Link>
                 <div className="md:hidden">
                     <button
                         type="button"
@@ -36,7 +36,7 @@ const Navbar = () => {
                             <Link to="/customers" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Customers</Link>
                         </li>
                         <li>
-                            <button onClick={handleLogout} className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Logout</button>
+                            <button onClick={handleLogout} className="block py-5 px-7 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-1 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Logout</button>
                         </li>
                     </ul>
                 </div>
