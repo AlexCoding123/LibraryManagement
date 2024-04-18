@@ -7,7 +7,9 @@ let customers = [
 // Get all customers
 exports.getCustomers = (req, res) => {
     try {
-        res.status(200).json(customers);
+        res.status(200).json({
+            customers: customers
+        });
     } catch (error) {
         console.error('Error retrieving customers:', error);
         res.status(500).json({ error: 'Error retrieving customers' });
@@ -22,7 +24,9 @@ exports.getCustomerById = (req, res) => {
         if (!customer) {
             return res.status(404).json({ error: `Customer with ID ${customerId} not found` });
         }
-        res.status(200).json(customer);
+        res.status(200).json({
+            customer: customers
+        });
     } catch (error) {
         console.error('Error retrieving customer:', error);
         res.status(500).json({ error: 'Error retrieving customer' });
@@ -80,6 +84,15 @@ exports.returnCatalog = (req, res) => {
     }
 }
 
-
+exports.syncCustomers = (req, res) => {
+    try {
+        const updatedCustomers = req.body;
+        customers.length = 0; // Clear existing customers
+        customers.push(...updatedCustomers); // Add new customers
+        res.status(200).json({ message: 'Customers synced successfully' });
+    } catch (error) {
+        res.status(500).json({ error: "Error syncing customers" });
+    }
+};
 
 

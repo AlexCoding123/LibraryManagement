@@ -64,6 +64,7 @@ const HomePage = () => {
                 }
 
                 <button><Link to="/new-catalog">Add Catalog</Link></button>
+                <button><Link to="/customers">Customers</Link></button>
         </div>
         </>
     );
