@@ -14,7 +14,7 @@ const Navbar = () => {
     return (
         <nav className="bg-white border-gray-200 fixed top-0 left-0 w-full z-10">
             <div className="max-w-screen-xl flex justify-between items-center mx-auto p-4">
-                <Link to="/home" className="text-2xl font-semibold text-gray-900">Your Logo</Link>
+                <Link to="/home" className="text-2xl font-semibold text-gray-900">Library</Link>
                 <div className="md:hidden">
                     <button
                         type="button"
