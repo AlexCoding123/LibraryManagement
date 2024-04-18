@@ -49,11 +49,24 @@ const CatalogForm = () => {
         <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8">
             <div className="mb-4">
                 <label htmlFor="name" className="block text-gray-700">Name:</label>
-                <input type="text" id="name" name="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="form-input mt-1 block w-full" />
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    required
+                    pattern="[A-Za-z\s]{0,100}"
+                    title="Maximum 100 characters, only letters and spaces allowed"
+                    className="form-input mt-1 block w-full" />
             </div>
             <div className="mb-4">
                 <label htmlFor="category" className="block text-gray-700">Category:</label>
-                <select id="category" name="category" value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })} className="form-select mt-1 block w-full">
+                <select id="category"
+                    name="category"
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="form-select mt-1 block w-full">
                     <option value="Book">Book</option>
                     <option value="Article">Article</option>
                     <option value="Paper">Paper</option>
@@ -62,7 +75,15 @@ const CatalogForm = () => {
             {formData.category === 'Book' && (
                 <div className="mb-4">
                     <label htmlFor="ISBN" className="block text-gray-700">ISBN:</label>
-                    <input type="text" id="ISBN" name="ISBN" value={formData.ISBN} onChange={(e) => setFormData({ ...formData, ISBN: e.target.value })} className="form-input mt-1 block w-full" />
+                    <input type="text"
+                        id="ISBN"
+                        name="ISBN"
+                        value={formData.ISBN}
+                        onChange={(e) => setFormData({ ...formData, ISBN: e.target.value })}
+                        required
+                        pattern="\d{13}"
+                        title="Exactly 13 digits allowed"
+                        className="form-input mt-1 block w-full" />
                 </div>
             )}
             <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit</button>
