@@ -58,13 +58,18 @@ const Catalog = () => {
     }
 
     return (
-        <div>
-            <h1>{catalog.name}</h1>
-            <h2>{catalog.category}</h2>
-            <h3>{catalog.ISBN}</h3>
-
-            <button onClick={handleDelete}>delete</button>
-            <button><Link to={`/edit-catalog/${catalogId}`}>edit</Link></button>
+        <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden flex">
+            <div className="w-3/4 pr-10">
+                <h1 className="text-xl font-bold">{catalog.name}</h1>
+                <h2 className="text-lg font-medium text-gray-600">{catalog.category}</h2>
+                {catalog.category === 'Book' && (
+                    <p className="text-sm text-gray-500">ISBN: {catalog.ISBN}</p>
+                )}
+            </div>
+            <div className="w-1/4 pl-10 flex justify-end items-center space-x-4">
+                <button onClick={handleDelete} className="bg-red-500 text-white px-4 py-2 rounded">Delete</button>
+                <button onClick={() => navigate(`/edit-catalog/${catalogId}`)} className="bg-blue-500 text-white px-4 py-2 rounded">Edit</button>
+            </div>
         </div>
     );
 }
