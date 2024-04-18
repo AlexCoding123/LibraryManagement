@@ -44,27 +44,36 @@ const CustomerForm = () => {
     };
 
     return (
-        <form onSubmit={handleCreateCustomer}>
-            <label htmlFor="name">Name:</label>
-            <input
-                type="text"
-                id="name"
-                value={customerForm.name}
-                onChange={handleChange}
-                name="name"
-                required
-            />
-            <label htmlFor="email">Email:</label>
-            <input
-                type="email"
-                id="email"
-                value={customerForm.email}
-                onChange={handleChange}
-                name="email"
-                required
-            />
-            <button type="submit">Create Customer</button>
-        </form>
+        <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4">Create Customer</h2>
+            <form onSubmit={handleCreateCustomer}>
+                <div className="mb-4">
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name:</label>
+                    <input
+                        type="text"
+                        id="name"
+                        value={customerForm.name}
+                        onChange={handleChange}
+                        name="name"
+                        required
+                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        value={customerForm.email}
+                        onChange={handleChange}
+                        name="email"
+                        required
+                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                </div>
+                <button type="submit" className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Create Customer</button>
+            </form>
+        </div>
     );
 };
 

@@ -29,8 +29,13 @@ const CatalogForm = () => {
                     console.log(updatedCatalogs);
                     setCatalogs(updatedCatalogs);
                     localStorage.setItem("catalogs", JSON.stringify(updatedCatalogs));
+                    setFormData({
+                        name: '',
+                        category: 'Book',
+                        ISBN: ''
 
-                navigate('/home');
+                    })
+                    navigate('/home');
             })
             .catch(error => {
                 console.error(error);

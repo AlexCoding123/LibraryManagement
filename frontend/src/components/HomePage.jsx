@@ -23,9 +23,16 @@ const fetchCatalogs = () => {
 }
 
 export const catalogAtom = atom([]);
+export const searchTermAtom = atom('');
 
 const HomePage = () => {
     const [catalogs, setCatalogs] = useAtom(catalogAtom);
+    const [searchTerm, setSearchTerm] = useAtom(searchTermAtom);
+    const filteredCatalogs = catalogs.filter(catalog =>
+        catalog.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        catalog.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (catalog.ISBN && catalog.ISBN.toString().includes(searchTerm))
+    );
 
     useEffect(() => {
         if(localStorage.getItem('catalogs')){
@@ -54,6 +61,13 @@ const HomePage = () => {
         <div className="container mx-auto">
             <h1 className="text-3xl font-bold mb-4">Welcome To The Home Page</h1>
             <div className="overflow-auto max-h-96">
+                <input
+                    type="text"
+                    placeholder="Search catalogs..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full border border-gray-300 rounded px-4 py-2 mb-4"
+                />
                 <table className="table-auto w-full">
                     <thead>
                         <tr>
@@ -63,7 +77,7 @@ const HomePage = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {catalogs.map(catalog => (
+                        {filteredCatalogs.map(catalog => (
                             <tr key={catalog.id} className="bg-white hover:bg-gray-100">
                                 <td className="border px-4 py-2">
                                     <Link to={`/catalog/${catalog.id}`} className="text-blue-600 hover:underline">{catalog.name}</Link>
