@@ -80,9 +80,9 @@ const CatalogForm = () => {
                         name="ISBN"
                         value={formData.ISBN}
                         onChange={(e) => setFormData({ ...formData, ISBN: e.target.value })}
-                        required
-                        pattern="\d{13}"
-                        title="Exactly 13 digits allowed"
+                        pattern="[0-9]+"
+                        title="Only numbers are allowed"
+                        maxLength={13}
                         className="form-input mt-1 block w-full" />
                 </div>
             )}

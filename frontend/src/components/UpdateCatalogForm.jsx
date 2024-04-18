@@ -26,7 +26,10 @@ const CatalogForm = () => {
                 headers: { Authorization: `Bearer ${token}` }
             };
 
-            axios.put(`http://localhost:3000/api/catalogs?id=${catalogId}`, formData, config)
+            const { name, category, ISBN } = formData;
+            const requestBody = { name, category, ISBN };
+            console.log(requestBody);
+            axios.put(`http://localhost:3000/api/catalogs?id=${catalogId}`, requestBody, config)
             .then(response => {
                     const updatedCatalogs = response.data.content;
                     console.log(updatedCatalogs);
@@ -57,14 +60,26 @@ const CatalogForm = () => {
     }, [])
 
     const handleCategoryChange = (e) => {
-        setFormData({ ...formData, category: e.target.value });
+        const newCategory = e.target.value;
+        // Reset ISBN value if the new category is not 'Book'
+        const newISBN = newCategory !== 'Book' ? '' : formData.ISBN;
+        setFormData({ ...formData, category: newCategory, ISBN: newISBN });
     };
 
     return (
         <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8">
             <div className="mb-4">
                 <label htmlFor="name" className="block text-gray-700">Name:</label>
-                <input type="text" id="name" name="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="form-input mt-1 block w-full" />
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    pattern="[A-Za-z\s]+"
+                    title="Only letters and spaces are allowed"
+                    maxLength={100}
+                    required                    className="form-input mt-1 block w-full" />
             </div>
             <div className="mb-4">
                 <label htmlFor="category" className="block text-gray-700">Category:</label>
@@ -77,7 +92,16 @@ const CatalogForm = () => {
             {formData.category === 'Book' && (
                 <div className="mb-4">
                     <label htmlFor="ISBN" className="block text-gray-700">ISBN:</label>
-                    <input type="text" id="ISBN" name="ISBN" value={formData.ISBN} onChange={(e) => setFormData({ ...formData, ISBN: e.target.value })} className="form-input mt-1 block w-full" />
+                    <input
+                        type="text"
+                        id="ISBN"
+                        name="ISBN"
+                        value={formData.ISBN}
+                        onChange={(e) => setFormData({ ...formData, ISBN: e.target.value })}
+                        pattern="[0-9]+"
+                        title="Only numbers are allowed"
+                        maxLength={13}
+                        className="form-input mt-1 block w-full" />
                 </div>
             )}
             <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit</button>
