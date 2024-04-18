@@ -5,9 +5,10 @@ import {catalogAtom} from './HomePage';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import {useEffect} from 'react';
 export const searchTermAtom = atom('');
 export const searchResultsAtom = atom([]);
+export const rentedCatalogsAtom = atom([]);
 
 const Customer = () => {
     const { id } = useParams();
@@ -17,7 +18,28 @@ const Customer = () => {
     const customer = customers.find(c => c.id === customerId);
     const [searchTerm, setSearchTerm] = useAtom(searchTermAtom);
     const [searchResults, setSearchResults] = useAtom(searchResultsAtom);
+    const [rentedCatalogs, setRentedCatalogs] = useAtom(rentedCatalogsAtom);
+
     const navigate = useNavigate();
+
+    const updateRentedCatalogs = (customerId, rented) => {
+        setRentedCatalogs(rented);
+        // Update rented catalogs in localStorage
+        const updatedCustomers = customers.map(customer => {
+            if (customer.id === customerId) {
+                return { ...customer, rented };
+            }
+            return customer;
+        });
+        localStorage.setItem('customers', JSON.stringify(updatedCustomers));
+    };
+    useEffect(() => {
+        const customersFromLocalStorage = JSON.parse(localStorage.getItem('customers')) || [];
+        const currentCustomer = customersFromLocalStorage.find(c => c.id === customerId);
+        if (currentCustomer) {
+            setRentedCatalogs(currentCustomer.rented || []);
+        }
+    }, [customerId]);
 
     const handleRentCatalog = (catalogId) => {
         const token = localStorage.getItem('token');
@@ -27,7 +49,7 @@ const Customer = () => {
         axios.put(`http://localhost:3000/api/rent-catalog/${customerId}/${catalogId}`, {}, config)
             .then(response => {
                 console.log('Catalog rented successfully:', response.data);
-                // You can update the customerAtom here if needed
+                updateRentedCatalogs(customerId, response.data.customer.rented);
             })
             .catch(error => {
                 console.error('Error renting catalog:', error);
@@ -42,7 +64,7 @@ const Customer = () => {
         axios.put(`http://localhost:3000/api/return-catalog/${customerId}/${catalogId}`, {}, config)
             .then(response => {
                 console.log('Catalog returned successfully:', response.data);
-                // You can update the customerAtom here if needed
+                updateRentedCatalogs(customerId, response.data.customer.rented);
             })
             .catch(error => {
                 console.error('Error returning catalog:', error);
@@ -61,26 +83,43 @@ const Customer = () => {
     };
 
     return (
-        <div>
+        <div className="container mx-auto">
             {customer && (
                 <div>
-                    <h1>{customer.name}</h1>
+                    <h1 className="text-2xl font-bold">{customer.name}</h1>
                     <h2>Email: {customer.email}</h2>
                     <input
                         type="text"
                         placeholder="Search catalogs..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full border border-gray-300 rounded px-2 py-1 mt-4"
                     />
-                    <button onClick={handleSearch}>Search</button>
-                    <ul>
+                    <button onClick={handleSearch} className="bg-blue-500 text-white px-4 py-1 rounded mt-2">Search</button>
+                    <ul className="mt-4">
                         {searchResults.map(catalog => (
-                            <li key={catalog.id}>
-                                {catalog.name}
-                                <button onClick={() => handleRentCatalog(catalog.id)}>Rent</button>
+                            <li key={catalog.id} className="flex justify-between items-center border-b border-gray-300 py-2">
+                                <span>{catalog.name}</span>
+                                <button onClick={() => handleRentCatalog(catalog.id)} className="bg-green-500 text-white px-2 py-1 rounded">Rent</button>
                             </li>
                         ))}
                     </ul>
+                    <h2 className="text-lg font-bold mt-4">Rented Catalogs</h2>
+                    {rentedCatalogs.length === 0 ? (
+                        <p>No rented catalogs for this customer</p>
+                    ) : (
+                        <ul className="mt-2">
+                            {rentedCatalogs.map(catalogId => {
+                                const catalog = catalogs.find(cat => cat.id === catalogId);
+                                return (
+                                    <li key={catalogId} className="flex justify-between items-center border-b border-gray-300 py-2">
+                                        <span>{catalog.name}</span>
+                                        <button onClick={() => handleReturnCatalog(catalogId)} className="bg-red-500 text-white px-2 py-1 rounded">Return</button>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    )}
                 </div>
             )}
         </div>
