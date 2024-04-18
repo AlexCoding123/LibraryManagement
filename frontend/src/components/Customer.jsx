@@ -13,7 +13,7 @@ export const rentedCatalogsAtom = atom([]);
 const Customer = () => {
     const { id } = useParams();
     const customerId = parseInt(id);
-    const [customers] = useAtom(customerAtom);
+    const [customers, setCustomers] = useAtom(customerAtom);
     const [catalogs] = useAtom(catalogAtom);
     const customer = customers.find(c => c.id === customerId);
     const [searchTerm, setSearchTerm] = useAtom(searchTermAtom);
@@ -24,7 +24,6 @@ const Customer = () => {
 
     const updateRentedCatalogs = (customerId, rented) => {
         setRentedCatalogs(rented);
-        // Update rented catalogs in localStorage
         const updatedCustomers = customers.map(customer => {
             if (customer.id === customerId) {
                 return { ...customer, rented };
@@ -34,6 +33,8 @@ const Customer = () => {
         localStorage.setItem('customers', JSON.stringify(updatedCustomers));
     };
     useEffect(() => {
+        setSearchTerm('');
+        setSearchResults([]);
         const customersFromLocalStorage = JSON.parse(localStorage.getItem('customers')) || [];
         const currentCustomer = customersFromLocalStorage.find(c => c.id === customerId);
         if (currentCustomer) {
@@ -50,6 +51,15 @@ const Customer = () => {
             .then(response => {
                 console.log('Catalog rented successfully:', response.data);
                 updateRentedCatalogs(customerId, response.data.customer.rented);
+                const updatedCustomers = customers.map(customer => {
+                    if (customer.id === customerId) {
+                        return { ...customer, rented: response.data.customer.rented };
+                    }
+                    return customer;
+
+                });
+                console.log(updatedCustomers);
+                setCustomers(updatedCustomers);
             })
             .catch(error => {
                 console.error('Error renting catalog:', error);
@@ -65,6 +75,14 @@ const Customer = () => {
             .then(response => {
                 console.log('Catalog returned successfully:', response.data);
                 updateRentedCatalogs(customerId, response.data.customer.rented);
+                const updatedCustomers = customers.map(customer => {
+                    if (customer.id === customerId) {
+                        return { ...customer, rented: response.data.customer.rented };
+                    }
+                    return customer;
+                });
+                console.log(updatedCustomers);
+                setCustomers(updatedCustomers);
             })
             .catch(error => {
                 console.error('Error returning catalog:', error);
@@ -97,7 +115,7 @@ const Customer = () => {
                     />
                     <button onClick={handleSearch} className="bg-blue-500 text-white px-4 py-1 rounded mt-2">Search</button>
                     <ul className="mt-4">
-                        {searchTerm !== '' && searchResults.map(catalog => (
+                        {searchResults.map(catalog => (
                             <li key={catalog.id} className="flex justify-between items-center border-b border-gray-300 py-2">
                                 <span>{catalog.name}</span>
                                 <button onClick={() => handleRentCatalog(catalog.id)} className="bg-green-500 text-white px-2 py-1 rounded">Rent</button>

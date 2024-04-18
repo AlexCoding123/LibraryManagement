@@ -12,8 +12,7 @@ const Catalog = () => {
     const [catalogs, setCatalogs] = useAtom(catalogAtom);
     const catalog = catalogs.find(cat => cat.id === catalogId);
     const navigate = useNavigate();
-
-    const [customers] = useAtom(customerAtom);
+    const customers = JSON.parse(localStorage.getItem('customers')) || [];
 
     const handleDelete = (e) => {
         e.preventDefault();
@@ -23,9 +22,12 @@ const Catalog = () => {
                 headers: { Authorization: `Bearer ${token}` }
             };
 
+            console.log(customers);
+
             const isCatalogRented = customers.some(customer => {
                 return customer.rented.includes(catalogId);
             });
+
 
             if (isCatalogRented) {
                 window.alert('Cannot delete a catalog that is rented by a customer.');
@@ -46,7 +48,7 @@ const Catalog = () => {
                 navigate('/home');
             })
         }catch(e){
-            console.error('Error deleting catalog')
+            console.error('Error deleting catalog', e)
         }
     }
 

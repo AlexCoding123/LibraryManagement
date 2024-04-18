@@ -7,6 +7,7 @@ import CatalogForm from './components/CatalogForm'
 import UpdateCatalogForm from './components/UpdateCatalogForm'
 import Customers from './components/Customers'
 import Customer from './components/Customer'
+import CustomerForm from './components/CustomerForm'
 import {isLoggedInAtom} from './components/LoginPage';
 import { Route, Routes} from 'react-router-dom';
 
@@ -22,6 +23,7 @@ function App() {
                         <Route path='/edit-catalog/:id' element={<UpdateCatalogForm />} />
                         <Route path='/customers' element={<Customers />} />
                         <Route path='/customer/:id' element={<Customer />} />
+                        <Route path='/new-customer' element={<CustomerForm/>} />
                     </Routes>
             </>
         )

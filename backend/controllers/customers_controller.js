@@ -33,6 +33,18 @@ exports.getCustomerById = (req, res) => {
     }
 };
 
+exports.createCustomer = (req, res) => {
+    try {
+        const newCustomer = req.body;
+        newCustomer.id = customers.length + 1;
+        customers.push(newCustomer);
+        res.status(201).json({ message: 'Customer created successfully', customers: customers });
+    } catch (error) {
+        console.error('Error creating customer:', error);
+        res.status(500).json({ error: 'Error creating customer' });
+    }
+};
+
 exports.rentCatalog = (req, res) => {
     try{
 

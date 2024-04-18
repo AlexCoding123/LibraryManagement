@@ -31,6 +31,7 @@ const Customers = () => {
     useEffect(() => {
         if (localStorage.getItem('customers')) {
             const localCustomers = JSON.parse(localStorage.getItem('customers'));
+            console.log(localCustomers);
             setCustomers(localCustomers);
             // Sync the backend with local storage
             const token = localStorage.getItem('token');
@@ -46,6 +47,7 @@ const Customers = () => {
                 });
         } else {
             fetchCustomers().then(data => {
+                console.log(data);
                 setCustomers(data);
                 localStorage.setItem('customers', JSON.stringify(data));
             });
