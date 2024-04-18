@@ -1,5 +1,21 @@
 **For dev purposes run the server in port 3000.**
 
+# Running Instructions
+
+To run the server
+
+``` bash
+cd backend
+node bin/www
+```
+
+To run the client
+
+``` bash
+cd frontend
+npm run dev
+```
+
 # This Library Management App login page, to login use the following credentials:
 Owner account:
 - Username: testowner
