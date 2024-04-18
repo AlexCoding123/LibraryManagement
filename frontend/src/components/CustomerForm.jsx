@@ -14,11 +14,31 @@ const CustomerForm = () => {
     const [customers, setCustomers] = useAtom(customerAtom);
     const navigate = useNavigate();
 
+
     const handleCreateCustomer = (e) => {
         e.preventDefault();
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(customerForm.email)) {
+            alert('Please enter a valid email address');
+            return;
+        }
+
+
+        const namePattern = /^[a-zA-Z\s]*$/;
+        if (!namePattern.test(customerForm.name)) {
+            alert('Please enter a valid name (only letters and spaces)');
+            return;
+        }
+
+
+        const capitalizedName = customerForm.name
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
         const token = localStorage.getItem('token');
         axios.post('http://localhost:3000/api/customers', {
-            name: customerForm.name,
+            name: capitalizedName,
             email: customerForm.email,
             rented: []
         }, {
@@ -56,6 +76,8 @@ const CustomerForm = () => {
                         onChange={handleChange}
                         name="name"
                         required
+                        pattern="[A-Za-z\s]+"
+                        title="Only letters and spaces are allowed"
                         className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                 </div>
@@ -68,6 +90,8 @@ const CustomerForm = () => {
                         onChange={handleChange}
                         name="email"
                         required
+                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                        title="Please enter a valid email address"
                         className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                 </div>
