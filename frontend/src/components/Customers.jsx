@@ -53,7 +53,7 @@ const Customers = () => {
     }, []);
     return (
         <>
-            <h1 className="text-3xl font-bold mb-4">Welcome To The Home Page</h1>
+            <h1 className="text-3xl font-bold mb-4">Customers</h1>
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white">
                     <thead>

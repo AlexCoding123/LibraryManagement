@@ -50,23 +50,36 @@ const HomePage = () => {
             });
         }
     },[])
-
     return (
-        <>
-        <h1>Welcome To The Home Page</h1>
-        <div>
-                {catalogs ?
-                    catalogs.map(catalog => (
-                        <Link to={`/catalog/${catalog.id}`}>{catalog.name}</Link>
-                    ))
-                    :
-                    <h1>No Catalogs!</h1>
-                }
-
-                <button><Link to="/new-catalog">Add Catalog</Link></button>
-                <button><Link to="/customers">Customers</Link></button>
+        <div className="container mx-auto">
+            <h1 className="text-3xl font-bold mb-4">Welcome To The Home Page</h1>
+            <div className="overflow-auto max-h-96">
+                <table className="table-auto w-full">
+                    <thead>
+                        <tr>
+                            <th className="px-4 py-2">Name</th>
+                            <th className="px-4 py-2">Category</th>
+                            <th className="px-4 py-2">ISBN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {catalogs.map(catalog => (
+                            <tr key={catalog.id} className="bg-white hover:bg-gray-100">
+                                <td className="border px-4 py-2">
+                                    <Link to={`/catalog/${catalog.id}`} className="text-blue-600 hover:underline">{catalog.name}</Link>
+                                </td>
+                                <td className="border px-4 py-2">{catalog.category}</td>
+                                <td className="border px-4 py-2">{catalog.ISBN}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <div className="mt-4">
+                <Link to="/new-catalog" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Catalog</Link>
+                <Link to="/customers" className="bg-blue-500 text-white px-4 py-2 ml-2 rounded hover:bg-blue-600">Customers</Link>
+            </div>
         </div>
-        </>
     );
 }
 

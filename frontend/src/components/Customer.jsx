@@ -97,7 +97,7 @@ const Customer = () => {
                     />
                     <button onClick={handleSearch} className="bg-blue-500 text-white px-4 py-1 rounded mt-2">Search</button>
                     <ul className="mt-4">
-                        {searchResults.map(catalog => (
+                        {searchTerm !== '' && searchResults.map(catalog => (
                             <li key={catalog.id} className="flex justify-between items-center border-b border-gray-300 py-2">
                                 <span>{catalog.name}</span>
                                 <button onClick={() => handleRentCatalog(catalog.id)} className="bg-green-500 text-white px-2 py-1 rounded">Rent</button>
