@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useAtomValue} from 'jotai'
 import './App.css'
+import LoginPage from './components/LoginPage'
+import HomePage from './components/HomePage'
+import Catalog from './components/Catalog'
+import CatalogForm from './components/CatalogForm'
+import UpdateCatalogForm from './components/UpdateCatalogForm'
+import Customers from './components/Customers'
+import Customer from './components/Customer'
+import CustomerForm from './components/CustomerForm'
+import Navbar from './components/Navbar';
+import {isLoggedInAtom} from './components/LoginPage';
+import { Route, Routes} from 'react-router-dom';
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const isLoggedIn = useAtomValue(isLoggedInAtom);
+    return (
+        <div className="flex flex-col h-screen">
+            {isLoggedIn ? <Navbar /> : null}
+            <div className={isLoggedIn ? "mt-40 flex-grow" : "flex-grow"}>
+                <Routes>
+                    <Route path='/' element={<LoginPage />} />
+                    <Route path='/home' element={<HomePage />} />
+                    <Route path='/catalog/:id' element={<Catalog />} />
+                    <Route path='/new-catalog' element={<CatalogForm />} />
+                    <Route path='/edit-catalog/:id' element={<UpdateCatalogForm />} />
+                    <Route path='/customers' element={<Customers />} />
+                    <Route path='/customer/:id' element={<Customer />} />
+                    <Route path='/new-customer' element={<CustomerForm />} />
+                </Routes>
+            </div>
+        </div>
+    )
 }
 
-export default App
+export default App;

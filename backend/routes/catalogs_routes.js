@@ -15,6 +15,7 @@ router.delete('/catalogs', (req, res, next) => {
 }, catalogsController.deleteCatalog);
 router.post('/catalogs', catalogsController.addCatalog);
 router.put('/catalogs', catalogsController.editCatalog);
+router.post('/sync-catalogs', catalogsController.syncCatalogs);
 
 module.exports = router;
 
