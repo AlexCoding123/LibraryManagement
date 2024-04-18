@@ -76,8 +76,7 @@ const HomePage = () => {
                 </table>
             </div>
             <div className="mt-4">
-                <Link to="/new-catalog" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Catalog</Link>
-                <Link to="/customers" className="bg-blue-500 text-white px-4 py-2 ml-2 rounded hover:bg-blue-600">Customers</Link>
+                <button><Link to="/new-catalog" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Catalog</Link></button>
             </div>
         </div>
     );

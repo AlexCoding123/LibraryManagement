@@ -56,21 +56,31 @@ const CatalogForm = () => {
         });
     }, [])
 
+    const handleCategoryChange = (e) => {
+        setFormData({ ...formData, category: e.target.value });
+    };
+
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Name:
-                <input type="text" name="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
-            </label>
-            <label>
-                Category:
-                <input type="text" name="category" value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })} />
-            </label>
-            <label>
-                ISBN:
-                <input type="text" name="ISBN" value={formData.ISBN} onChange={(e) => setFormData({ ...formData, ISBN: e.target.value })} />
-            </label>
-            <button type="submit">Submit</button>
+        <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8">
+            <div className="mb-4">
+                <label htmlFor="name" className="block text-gray-700">Name:</label>
+                <input type="text" id="name" name="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="form-input mt-1 block w-full" />
+            </div>
+            <div className="mb-4">
+                <label htmlFor="category" className="block text-gray-700">Category:</label>
+                <select id="category" name="category" value={formData.category} onChange={handleCategoryChange} className="form-select mt-1 block w-full">
+                    <option value="Book">Book</option>
+                    <option value="Article">Article</option>
+                    <option value="Paper">Paper</option>
+                </select>
+            </div>
+            {formData.category === 'Book' && (
+                <div className="mb-4">
+                    <label htmlFor="ISBN" className="block text-gray-700">ISBN:</label>
+                    <input type="text" id="ISBN" name="ISBN" value={formData.ISBN} onChange={(e) => setFormData({ ...formData, ISBN: e.target.value })} className="form-input mt-1 block w-full" />
+                </div>
+            )}
+            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit</button>
         </form>
     );
 }

@@ -37,16 +37,21 @@ const Catalog = () => {
             const url = `http://localhost:3000/api/catalogs?id=${catalog.id}`;
             axios.delete(url, config)
             .then(response => {
-                if(!response.status === 200){
+
+                if(response.status !== 200){
                     throw new Error(`API call failed with status ${response.data}`);
                 }
-                console.log(response.data.content);
+
                 const updatedCatalogs = response.data.content;
                 setCatalogs(updatedCatalogs);
                 localStorage.setItem("catalogs", JSON.stringify(updatedCatalogs));
 
                 navigate('/home');
             })
+            .catch(error => {
+                console.error('Error:', error);
+                window.alert('Cannot delete, persmission denied');
+            });
         }catch(e){
             console.error('Error deleting catalog', e)
         }
